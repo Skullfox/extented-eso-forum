@@ -41,7 +41,6 @@ $( document ).ready(function() {
     dataType: "json",
     success: function(result){
 
-
       setTimeout(function() {
           $(".top-level").append('<ul class="extef-server" style="display: none"></ul>');
 
@@ -71,22 +70,16 @@ $( document ).ready(function() {
         var url = window.location.href;
         var sp = url.split("/");
 
-
-        console.log(sp);
-
         var catUrl = sp[0]+"//"+sp[1]+"/"+sp[2]+"/"+sp[3]+"/"+sp[4]+"/"+sp[5];
-        console.log(catUrl);
+
         if(sp.length > 6){
           //px
           var p = sp[6].split("p");
           var s = parseInt( p[1] );
           setCookie("extef_site",parseInt( s ) );
-          console.warn("extef_site greater was set to " + s);
-
         }else{
           var s = 1;
           setCookie("extef_site",parseInt( 1 ) );
-          console.warn("extef_site was set to " + s);
         }
       }
    }
@@ -97,12 +90,9 @@ $( document ).ready(function() {
         var c = getCookie("extef_site");
         var extefSite =  parseInt(c) + 1;
 
-
-       console.log("load site " + extefSite);
-
        var url = window.location.href;
        var sp = url.split("/");
-       console.log(sp);
+
        var catUrl = sp[0]+"//"+sp[1]+"/"+sp[2]+"/"+sp[3]+"/"+sp[4]+"/"+sp[5];
 
        setCookie("extef_site",extefSite);
@@ -176,11 +166,8 @@ $( document ).ready(function() {
 
    $(window).scroll(function() {
       if($(window).scrollTop() + $(window).height() == $(document).height()) {
-          console.log("site end");
 
           if ($('.Discussions').length){
-
-            console.log("checkNewContent()");
             checkNewContent();
 
           }

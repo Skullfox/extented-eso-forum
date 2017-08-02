@@ -70,4 +70,17 @@
   .circle.green{
     color : green;
   }
+
+  .Categories .PageControls.Top #PagerBefore ,.Categories .PageControls.Bottom{
+    display: none;
+  }
+
+  .Categories .PageControls.Top {
+    margin-bottom: 0px;
+  }
+
+  .DataTable thead td {
+    padding-bottom: 0px !important;
+  }
+
 }
