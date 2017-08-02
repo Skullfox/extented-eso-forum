@@ -4,3 +4,6 @@ Plugin download https://github.com/Skullfox/extented-eso-forum/blob/master/relea
 
 # Install
 Drag drop the .crx file into Chrome.
+
+# Info
+This plugin is designed for screen resolution > 1024.
