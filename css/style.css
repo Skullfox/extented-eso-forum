@@ -1,0 +1,49 @@
+@media (min-width: 1024px){
+  
+  body {
+    margin-top: 0px !important;
+  }
+
+  .eso-logo{
+      height: 0px!important;
+      opacity: 0!important;
+      margin-bottom: 0px!important;
+  }
+
+  #Navigation{
+      margin-top: 62px !important;
+  }
+
+  .second-level ul{
+        margin-bottom: 0px !important;
+  }
+
+  .triangle{
+    top: 30px !important;
+  }
+
+  .collapsed-title{
+    display: inline-block !important;
+    opacity: 1 !important;
+  }
+
+  .esof-flag-link img{
+    height: 10px;
+  }
+
+    .extef-breadcrumb .Last a {
+    color: #fff !important;
+  }
+
+  .universal-nav-top .universal-nav .universal-nav-wrapper .second-level {
+      padding-top: 0px !important;
+  }
+
+  .universal-nav-top .universal-nav .universal-nav-wrapper .second-level ul li {
+      display: inline-block;
+      position: relative;
+      padding: 0 5px 0 0;
+      height: 40px !important;
+  }
+
+}
