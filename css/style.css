@@ -1,7 +1,11 @@
 @media (min-width: 1024px){
-  
+
   body {
     margin-top: 0px !important;
+  }
+
+  .cta-right.btn-grade{
+    display: none;
   }
 
   .eso-logo{
@@ -27,11 +31,11 @@
     opacity: 1 !important;
   }
 
-  .esof-flag-link img{
+  .extef-flags img{
     height: 10px;
   }
 
-    .extef-breadcrumb .Last a {
+  .extef-breadcrumb .Last a {
     color: #fff !important;
   }
 
@@ -46,4 +50,24 @@
       height: 40px !important;
   }
 
+  .extef-server{
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .extef-server li{
+    margin-right: 5px;
+  }
+
+  .circle:before {
+    content: ' \25CF';
+    font-size: 10px;
+  }
+  .circle.red{
+    color : red;
+  }
+  .circle.green{
+    color : green;
+  }
 }
