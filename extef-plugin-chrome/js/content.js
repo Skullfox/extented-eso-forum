@@ -100,7 +100,7 @@ $( document ).ready(function() {
       var _this = this;
 
       $.ajax({
-        url: "https://raw.githubusercontent.com/Skullfox/extented-eso-forum/master/release/version.json",
+        url: "https://raw.githubusercontent.com/Skullfox/extented-eso-forum/master/extef-plugin-chrome/manifest.json",
         dataType: "json",
         success: function(result){
 
