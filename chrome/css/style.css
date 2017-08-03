@@ -83,4 +83,32 @@
     padding-bottom: 0px !important;
   }
 
+  .universal-nav-bottom .universal-footer footer {
+    padding: 0 30px 5px 30px !important;
+  }
+
+  .universal-nav-bottom .universal-footer footer .footer-list.first-list {
+    margin: 0px 0 0px 0 !important;
+  }
+
+  .universal-nav-bottom .universal-footer footer .copyright {
+    margin: 10px 0 0 0 !important;
+  }
+
+  .lang-flag{
+    display: none !important;
+  }
+
+  footer{
+    text-align: center;
+  }
+
+  .universal-nav-bottom .universal-footer footer .footer-list.second-list {
+    margin: 0px 0 -10px 0 !important;
+  }
+
+  .extef-update a{
+    margin-left: 25px;
+  }
+
 }

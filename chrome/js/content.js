@@ -1,65 +1,122 @@
 $( document ).ready(function() {
 
+  extefPlugin = {
 
-  setCurrentPage();
-
-
-  var lang = {
-    "en_us" : {
-      "link": "https://forums.elderscrollsonline.com/en/categories",
-      "flag" : "https://esosslfiles-a.akamaihd.net/images/flags/en-us.png"
-    },
-    "en_int" : {
-      "link": "https://forums.elderscrollsonline.com/en-gb/categories",
-      "flag" : "https://esosslfiles-a.akamaihd.net/images/flags/en-gb.png"
-    },
-    "de" : {
-      "link": "https://forums.elderscrollsonline.com/de/categories",
-      "flag" : "https://esosslfiles-a.akamaihd.net/images/flags/de.png"
-    },
-    "fr" : {
-      "link": "https://forums.elderscrollsonline.com/fr/categories",
-      "flag" : "https://esosslfiles-a.akamaihd.net/images/flags/fr.png"
+    "start" : function(){
+      console.log('%c Extended Eso Forum Plugin ' + chrome.runtime.getManifest().version, 'background: #fff; color: #33636b');
     },
 
-  };
+    "languageSwitcher" : function(){
 
-  $("#Breadcrumbs").appendTo(".MeBox.Inline");
-  $("#Breadcrumbs").addClass("extef-breadcrumb");
-  $(".logos.list-unstyled").empty();
+      var _this = this;
 
-  setTimeout(function() {
-    $(".logos.list-unstyled").empty();
-    $.each( lang , function( key) {
-      $(".top-level ul").append('<li class="extef-flags" style="display:none" ><a class="extef-flag-link"  href="'+lang[key].link+'"><img src="'+lang[key].flag+'"></a></li>');
-    });
-    $(".extef-flags").fadeIn();
-  }, 1000);
+      var lang = {
+        "en_us" : {
+          "link": "https://forums.elderscrollsonline.com/en/categories",
+          "flag" : "https://esosslfiles-a.akamaihd.net/images/flags/en-us.png"
+        },
+        "en_int" : {
+          "link": "https://forums.elderscrollsonline.com/en-gb/categories",
+          "flag" : "https://esosslfiles-a.akamaihd.net/images/flags/en-gb.png"
+        },
+        "de" : {
+          "link": "https://forums.elderscrollsonline.com/de/categories",
+          "flag" : "https://esosslfiles-a.akamaihd.net/images/flags/de.png"
+        },
+        "fr" : {
+          "link": "https://forums.elderscrollsonline.com/fr/categories",
+          "flag" : "https://esosslfiles-a.akamaihd.net/images/flags/fr.png"
+        },
 
-  $.ajax({
-    url: "https://live-services.elderscrollsonline.com/status/realms",
-    dataType: "json",
-    success: function(result){
+      };
 
-      setTimeout(function() {
-          $(".top-level").append('<ul class="extef-server" style="display: none"></ul>');
 
-          var s = result.zos_platform_response.response;
+      _this.addAfterAjax(".top-level ul",function(){
 
-          $.each( s , function( sn ) {
+          $(".logos.list-unstyled").empty();
 
-                var sna = sn.split("The Elder Scrolls Online ");
-                var x = (s[sn] == "UP")? "green" : "red";
-                $(".extef-server").append('<li>'+sna[1]+'<span class="circle '+x+'"></span> </li>');
+          $.each( lang , function( key) {
+            $(".top-level ul").first().append('<li class="extef-flags" style="display:none" ><a class="extef-flag-link"  href="'+lang[key].link+'"><img src="'+lang[key].flag+'"></a></li>');
           });
 
-            $(".extef-server").fadeIn();
-      }, 1000);
+          $(".extef-flags").fadeIn();
 
-   }});
+      })
 
+    },
 
-   function setCurrentPage(){
+    "breadcrumbs" : function (){
+
+      $("#Breadcrumbs").appendTo(".MeBox.Inline");
+      $("#Breadcrumbs").addClass("extef-breadcrumb");
+
+    },
+
+    "serverstatus" : function(){
+      var _this = this;
+
+      $.ajax({
+        url: "https://live-services.elderscrollsonline.com/status/realms",
+        dataType: "json",
+        success: function(result){
+
+          _this.addAfterAjax(".top-level ul",function(){
+
+            $(".top-level").append('<ul class="extef-server" style="display: none"></ul>');
+
+            var s = result.zos_platform_response.response;
+
+            $.each( s , function( sn ) {
+
+                  var sna = sn.split("The Elder Scrolls Online ");
+                  var x = (s[sn] == "UP")? "green" : "red";
+                  $(".extef-server").append('<li>'+sna[1]+'<span class="circle '+x+'"></span> </li>');
+            });
+
+              $(".extef-server").fadeIn();
+
+          })
+
+       }});
+
+    },
+
+    "addAfterAjax" : function(selector,callback){
+
+      var e = setInterval(function() {
+
+         if ($(selector).length) {
+
+              callback();
+
+            clearInterval(e);
+         }
+
+      }, 300,selector,callback);
+
+    },
+
+    "checkForUpdate" : function(){
+      var _this = this;
+
+      $.ajax({
+        url: "https://raw.githubusercontent.com/Skullfox/extented-eso-forum/master/release/version.json",
+        dataType: "json",
+        success: function(result){
+
+          if(result.version > chrome.runtime.getManifest().version ){
+
+            _this.addAfterAjax(".top-level ul",function(){
+                $(".top-level ul").first().append('<li class="extef-update" style="" ><a target="_blank"class=""href="https://github.com/Skullfox/extented-eso-forum">EXTEF Update available</a></li>');
+            })
+
+          }
+
+       }});
+
+    },
+
+    "setCurrentPage" : function(){
 
       setCookie("extef_site", 1);
 
@@ -82,8 +139,20 @@ $( document ).ready(function() {
           setCookie("extef_site",parseInt( 1 ) );
         }
       }
-   }
 
+    }
+
+  }
+
+  extefPlugin.start();
+  extefPlugin.languageSwitcher();
+  extefPlugin.breadcrumbs();
+  extefPlugin.serverstatus();
+  extefPlugin.checkForUpdate();
+  extefPlugin.setCurrentPage();
+
+
+  $(".logos.list-unstyled").empty();
 
    function checkNewContent(){
 
