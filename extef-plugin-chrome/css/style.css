@@ -4,6 +4,10 @@
     margin-top: 0px !important;
   }
 
+  .page-news div#post-title {
+    margin-top: 60px;
+  }
+
   .cta-right.btn-grade{
     display: none;
   }

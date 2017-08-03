@@ -60,6 +60,7 @@ $( document ).ready(function() {
         dataType: "json",
         success: function(result){
 
+
           _this.addAfterAjax(".top-level ul",function(){
 
             $(".top-level").append('<ul class="extef-server" style="display: none"></ul>');
@@ -77,7 +78,17 @@ $( document ).ready(function() {
 
           })
 
-       }});
+       },
+       error : function(result, exception){
+         if(result.responseJSON.zos_platform_response.result_code != 2000){
+           console.warn(result.responseJSON.zos_platform_response.result_message);
+           return false;
+         }
+
+       }
+
+
+     });
 
     },
 
@@ -140,9 +151,73 @@ $( document ).ready(function() {
         }
       }
 
+    },
+
+    "nerfFilter" : function(){
+        var _this = this;
+
+      console.log("nerf");
+      var o = true;
+      if(o){
+
+        _this.addAfterAjax(".DiscussionsTable",function(){
+
+          var c = 0;
+
+          $( "tr.ItemDiscussion .DiscussionName a" ).each(function( index ) {
+              if( $( this ).text().match(/nerf/i) ){
+
+                var i = $( this ).parents(".Item");
+
+                if( i.hasClass("extef-filter-nerf") == false ){
+                  console.log( $( this ).text() );
+                  $( this ).parents(".Item").addClass("extef-filter-nerf");
+                  $( this ).parents(".Item").hide();
+                  c++;
+                }
+              }
+            });
+            console.log("Nerf filter hides "+c+" threads");
+
+        })
+
+
+      }
+
+    },
+
+    "options" : function(){
+
+
+
+
     }
 
   }
+
+  var url = window.location.href;
+  if(url.indexOf("www.elderscrollsonline.com") !== -1){
+
+    console.log("on mainsite");
+
+
+    if(url.indexOf("agegate") !== -1){
+      console.log("agegate detected");
+
+      //setCookie("age_gate","631152000%261501771060");
+      //setCookie("country","unknown");
+
+      //setCookie("_ga","");
+    //  setCookie("_gid","");
+    //  setCookie("_gat_UA-00000","1");
+    //  setCookie("_dc_gtm_UA-000000-1","1");
+
+    }
+
+  }
+
+
+
 
   extefPlugin.start();
   extefPlugin.languageSwitcher();
@@ -150,6 +225,8 @@ $( document ).ready(function() {
   extefPlugin.serverstatus();
   extefPlugin.checkForUpdate();
   extefPlugin.setCurrentPage();
+  extefPlugin.options();
+  extefPlugin.nerfFilter();
 
 
   $(".logos.list-unstyled").empty();
@@ -217,6 +294,7 @@ $( document ).ready(function() {
 
         }});
 
+        extefPlugin.nerfFilter();
 
    }
 

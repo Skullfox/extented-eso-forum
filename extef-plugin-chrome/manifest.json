@@ -4,11 +4,12 @@
   "version": "0.1.2",
   "description": "Simple plugin to extent the eso forum.",
   "homepage_url": "https://github.com/Skullfox/extented-eso-forum",
-  "web_accessible_resources": ["jquery.min.js","content.js","icon/*.gif"] ,
+  "web_accessible_resources": ["jquery.min.js","content.js","icon/*.gif","css/*.css"] ,
+  "options_page": "options.html",
   "content_scripts": [{
     "css": ["css/style.css"],
     "js": ["js/jquery.min.js","js/content.js"],
-    "matches": ["https://forums.elderscrollsonline.com/*"],
+    "matches": ["https://forums.elderscrollsonline.com/*","http://www.elderscrollsonline.com/*"],
     "run_at": "document_end"
   }],
   "icons":
@@ -19,7 +20,8 @@
   },
   "permissions": [
     "https://live-services.elderscrollsonline.com/status/realms",
-    "https://github.com/Skullfox/extented-eso-forum/tree/master/release"
+    "https://github.com/Skullfox/extented-eso-forum/tree/master/release",
+    "storage"
   ]
 
 }
