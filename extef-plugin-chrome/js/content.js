@@ -154,35 +154,53 @@ $( document ).ready(function() {
     },
 
     "nerfFilter" : function(){
-        var _this = this;
 
-      console.log("nerf");
-      var o = true;
-      if(o){
+      var _this = this;
 
-        _this.addAfterAjax(".DiscussionsTable",function(){
-
-          var c = 0;
-
-          $( "tr.ItemDiscussion .DiscussionName a" ).each(function( index ) {
-              if( $( this ).text().match(/nerf/i) ){
-
-                var i = $( this ).parents(".Item");
-
-                if( i.hasClass("extef-filter-nerf") == false ){
-                  console.log( $( this ).text() );
-                  $( this ).parents(".Item").addClass("extef-filter-nerf");
-                  $( this ).parents(".Item").hide();
-                  c++;
-                }
-              }
-            });
-            console.log("Nerf filter hides "+c+" threads");
-
-        })
+      chrome.storage.local.get("cnerf",function(result){
+        if("cnerf" in result){
+          if(result.cnerf){
 
 
-      }
+            _this.addAfterAjax(".DiscussionsTable",function(){
+
+              var c = 0;
+
+              $( "tr.ItemDiscussion .DiscussionName a" ).each(function( index ) {
+                  if( $( this ).text().match(/nerf/i) ){
+
+                    var i = $( this ).parents(".Item");
+
+                    if( i.hasClass("extef-filter-nerf") == false ){
+                      //console.log( $( this ).text() );
+                      $( this ).parents(".Item").addClass("extef-filter-nerf");
+                      $( this ).parents(".Item").hide();
+                      c++;
+                    }
+                  }
+                });
+                //console.log("EXTEF filter hides "+c+" threads");
+
+            })
+
+          }else{
+
+
+            _this.addAfterAjax(".DiscussionsTable",function(){
+
+              var c = 0;
+
+              $( "tr.extef-filter-nerf" ).each(function( index ) {
+                      $( this ).show();
+                      $( this ).removeClass("extef-filter-nerf");
+                });
+                //console.log("EXTEF filter hides "+c+" threads");
+            })
+
+
+          }
+        };
+      });
 
     },
 
@@ -203,31 +221,18 @@ $( document ).ready(function() {
 
     if(url.indexOf("agegate") !== -1){
       console.log("agegate detected");
-
-      //setCookie("age_gate","631152000%261501771060");
-      //setCookie("country","unknown");
-
-      //setCookie("_ga","");
-    //  setCookie("_gid","");
-    //  setCookie("_gat_UA-00000","1");
-    //  setCookie("_dc_gtm_UA-000000-1","1");
-
     }
 
   }
-
-
-
 
   extefPlugin.start();
   extefPlugin.languageSwitcher();
   extefPlugin.breadcrumbs();
   extefPlugin.serverstatus();
-  extefPlugin.checkForUpdate();
+  //extefPlugin.checkForUpdate();
   extefPlugin.setCurrentPage();
   extefPlugin.options();
   extefPlugin.nerfFilter();
-
 
   $(".logos.list-unstyled").empty();
 
@@ -239,7 +244,14 @@ $( document ).ready(function() {
        var url = window.location.href;
        var sp = url.split("/");
 
-       var catUrl = sp[0]+"//"+sp[1]+"/"+sp[2]+"/"+sp[3]+"/"+sp[4]+"/"+sp[5];
+
+       if(sp.length == 5){
+         var catUrl = sp[0]+"//"+sp[1]+"/"+sp[2]+"/"+sp[3]+"/"+sp[4];
+       }else{
+         var catUrl = sp[0]+"//"+sp[1]+"/"+sp[2]+"/"+sp[3]+"/"+sp[4]+"/"+sp[5];
+       }
+
+
 
        setCookie("extef_site",extefSite);
 
@@ -253,6 +265,7 @@ $( document ).ready(function() {
            $.each( result.Discussions , function( d ) {
 
              var ds = result.Discussions[d];
+             var isStaffClass = (ds.Staff)? "is-staff": "";
 
              $(".DataTable.DiscussionsTable tbody").append('<tr id="Discussion_' + ds.DiscussionID+'" class="Item Alt Unread ItemDiscussion "> \
                       <td class="Col-Staff"> \
@@ -273,7 +286,7 @@ $( document ).ready(function() {
                    </td> \
                   <td class="FirstUser Col-User"> \
                 <div class="Wrap"> \
-                  <a href="/en/profile/'+ds.FirstName+'" class="UserLink BlockTitle">'+ds.FirstName+'</a>		</div> \
+                  <a href="/en/profile/'+ds.FirstName+'" class="UserLink BlockTitle ' + isStaffClass + '">'+ds.FirstName+'</a>		</div> \
                 </td> \
               <td class="BigCount CountComments"> \
                    <div class="Wrap"> \
@@ -292,9 +305,10 @@ $( document ).ready(function() {
 
            });
 
+
         }});
 
-        extefPlugin.nerfFilter();
+         extefPlugin.nerfFilter();
 
    }
 
