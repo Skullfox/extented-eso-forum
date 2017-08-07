@@ -2,9 +2,9 @@
   "manifest_version": 2,
   "name": "Extented ESO Forum",
   "version": "0.1.2",
-  "description": "Simple plugin to extend the Eso forum.",
+  "description": "Simple plugin to extend the ESO forum.",
   "homepage_url": "https://github.com/Skullfox/extented-eso-forum",
-  "web_accessible_resources": ["jquery.min.js","content.js","icon/*.gif","css/*.css"] ,
+  "web_accessible_resources": ["jquery.min.js","content.js","css/*.css"] ,
   "options_page": "options.html",
   "browser_action": {
   "default_icon": "icon/48.png",

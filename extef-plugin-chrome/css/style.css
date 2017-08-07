@@ -39,6 +39,14 @@
     height: 10px;
   }
 
+  .extef-breadcrumb{
+    margin-left: 5px;
+  }
+
+  .is-signedin .extef-breadcrumb{
+      margin-left: 0px;
+  }
+
   .extef-breadcrumb .Last a {
     color: #fff !important;
   }
