@@ -6,6 +6,10 @@ $( document ).ready(function() {
       console.log('%c Extended Eso Forum Plugin ' + chrome.runtime.getManifest().version, 'background: #fff; color: #33636b');
     },
 
+    "advertisement" : function(){
+      setCookie("om-635196", true); // hide horns of the reach advertisement
+    },
+
     "languageSwitcher" : function(){
 
       var _this = this;
@@ -229,10 +233,10 @@ $( document ).ready(function() {
   extefPlugin.languageSwitcher();
   extefPlugin.breadcrumbs();
   extefPlugin.serverstatus();
-  //extefPlugin.checkForUpdate();
   extefPlugin.setCurrentPage();
   extefPlugin.options();
   extefPlugin.nerfFilter();
+  extefPlugin.advertisement();
 
   $(".logos.list-unstyled").empty();
 
