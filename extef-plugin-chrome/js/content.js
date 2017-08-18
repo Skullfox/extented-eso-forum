@@ -6,8 +6,31 @@ $( document ).ready(function() {
       console.log('%c Extended Eso Forum Plugin ' + chrome.runtime.getManifest().version, 'background: #fff; color: #33636b');
     },
 
+    "log" : function(text = "M'aiq has heard it is dangerous to be your friend."){
+      console.log('%c[EXTEF] '+ text, 'background: #fff; color: #33636b');
+    },
+
     "advertisement" : function(){
-      setCookie("om-635196", true); // hide horns of the reach advertisement
+
+      var _this = this;
+
+      var callback = function(arg){
+
+        arg.document.addAfterAjax("#portland-optin",function(){
+
+          arg.document.log("Hide advertisement");
+            $("#portland-optin").fadeOut().remove();
+            $(".portland-background").fadeOut().remove();
+
+        })
+
+
+      };
+
+      _this.getOption("advertisement",callback,{"document" : _this });
+
+
+
     },
 
     "languageSwitcher" : function(){
@@ -107,27 +130,7 @@ $( document ).ready(function() {
             clearInterval(e);
          }
 
-      }, 300,selector,callback);
-
-    },
-
-    "checkForUpdate" : function(){
-      var _this = this;
-
-      $.ajax({
-        url: "https://raw.githubusercontent.com/Skullfox/extented-eso-forum/master/extef-plugin-chrome/manifest.json",
-        dataType: "json",
-        success: function(result){
-
-          if(result.version > chrome.runtime.getManifest().version ){
-
-            _this.addAfterAjax(".top-level ul",function(){
-                $(".top-level ul").first().append('<li class="extef-update" style="" ><a target="_blank"class=""href="https://github.com/Skullfox/extented-eso-forum">EXTEF Update available</a></li>');
-            })
-
-          }
-
-       }});
+      }, 200,selector,callback);
 
     },
 
@@ -157,6 +160,27 @@ $( document ).ready(function() {
 
     },
 
+    "getOption" : function(option,callback,args = {}){
+
+      chrome.storage.local.get(option,function(result){
+
+        console.log(result);
+        if(option in result){
+
+          if(result[option]){
+
+            callback(args)
+          }else{
+            console.log("Option " + option + " didnt exist or is false");
+          }
+
+        };
+
+      });
+
+
+    },
+
     "nerfFilter" : function(){
 
       var _this = this;
@@ -183,7 +207,7 @@ $( document ).ready(function() {
                     }
                   }
                 });
-                //console.log("EXTEF filter hides "+c+" threads");
+                _this.log("Filter hides "+c+" nerf threads");
 
             })
 
@@ -208,10 +232,18 @@ $( document ).ready(function() {
 
     },
 
-    "options" : function(){
+    "editor" : function(){
+
+      if ( $('.TextBoxWrapper').length ){
+
+        $(".editor-upload-attention").after('<div><h1>test</h1> \
+        <iframe src="https://steam.tools/emoticons/"></iframe> \
+        </div>');
+        $(".editor-action.icon.icon-align-right").after('<span class="editor-action icon icon-cog editor-dialog-fire-close editor-optional-button"></span>');
 
 
 
+      }
 
     }
 
@@ -234,9 +266,10 @@ $( document ).ready(function() {
   extefPlugin.breadcrumbs();
   extefPlugin.serverstatus();
   extefPlugin.setCurrentPage();
-  extefPlugin.options();
+
   extefPlugin.nerfFilter();
   extefPlugin.advertisement();
+  extefPlugin.editor();
 
   $(".logos.list-unstyled").empty();
 

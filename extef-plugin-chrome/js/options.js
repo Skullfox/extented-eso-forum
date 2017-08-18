@@ -1,34 +1,56 @@
+$(document).foundation()
+
 $( document ).ready(function() {
 
-  chrome.storage.local.get("cnerf",function(result){
-    if("cnerf" in result){
-      $('#cnerf').prop('checked', result.cnerf);
 
-    }else{
-      $('#cnerf').prop('checked', false);
-    }
-    console.log(result);
+  $(".extef-settings").each(function () {
+
+    var option = ( $(this).attr("id").length == 0 ) ? false : $(this).attr("id");
+
+    chrome.storage.local.get(option,function(result){
+
+      if(option in result){
+
+        $('#' + option).prop('checked', result[option]);
+
+      }else{
+
+        $('#' + option).prop('checked', false);
+      }
+
+
+
+    });
 
   });
 
-  $("#cnerf").change(function() {
-      if(this.checked) {
-          console.log("checked");
+  $(".extef-settings").change(function() {
 
-          chrome.storage.local.set({'cnerf': 1}, function() {
-            // Notify that we saved.
+    var option = ( $(this).attr("id").length == 0 ) ? false : $(this).attr("id");
+
+      if(this.checked) {
+          console.log(option + " checked");
+
+          var obj = {};
+          obj[option] = 1;
+          chrome.storage.local.set(obj, function() {
+            console.log("saved");
 
           });
 
       }else{
-          console.log("unchecked");
-          chrome.storage.local.set({'cnerf': 0}, function() {
+          console.log(option + " unchecked");
+
+          var obj = {};
+          obj[option] = 0;
+
+          chrome.storage.local.set(obj, function() {
             // Notify that we saved.
 
           });
       }
-  });
 
+  });
 
   console.log("option loaded");
 });
